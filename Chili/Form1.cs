@@ -24,19 +24,19 @@ namespace Chili
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                try
-                {
+                //try
+                //{
                     Parser parser = new Parser(openFileDialog1.FileName);
                     RenderData RData = parser.Parse();
                     Render R = new Render(RData);
                     R.RenderAll(/*path to PNG file*/);
                     MessageBox.Show("Image.png", "Image successfully creted", MessageBoxButtons.OK);
-                }
-                catch(Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
+                //}
+                //catch(Exception ex)
+                //{
+                //    MessageBox.Show(ex.Message);
 
-                }
+                //}
 
             }
         }

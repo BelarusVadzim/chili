@@ -9,9 +9,10 @@ namespace Chili.Models
     class RenderData
     {
         public List<XPanel> ListOfXPanel { get; set; }
-        public double RootX { get; set; }
-        public double RootY { get; set; }
-        public double OriginalDocumentWidth { get; set; }
-        public double OriginalDocumentHeigth { get; set; }
+        public float RootX { get; set; }
+        public float RootY { get; set; }
+        public float OriginalDocumentWidth { get; set; }
+        public float OriginalDocumentHeigth { get; set; }
+        public XPanel RootXPanel { get; set; }
     }
 }

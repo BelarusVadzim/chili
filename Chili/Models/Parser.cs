@@ -20,13 +20,17 @@ namespace Chili
             RData.RootY = LoadRootYFromXML(xml);
             RData.OriginalDocumentHeigth = LoadOriginalDocumentHeigthFromXML(xml);
             RData.OriginalDocumentWidth= LoadOriginalDocumentWidthFromXML(xml);
+
             IEnumerable<XElement> elements = xml.Root.Element("panels").Elements("item");
             List<XPanel> panels = new List<XPanel>();
+            XPanel P = new XPanel();
             foreach (XElement item in elements)
             {
                 AddDataToListOfPanel(item, null, panels);
+                P = LoadDataToPanelFromXMLElement2(item);
             }
             RData.ListOfXPanel = panels;
+            RData.RootXPanel = P;
             return RData;
 
         }
@@ -43,45 +47,79 @@ namespace Chili
             panels.Add(panel);
             IEnumerable<XElement> elements = xelement.Element("attachedPanels").Elements("item");
 
+
+
             foreach (XElement element in elements)
             {   
                 AddDataToListOfPanel(element, panel, panels);
+
             }
 
         }
+
         private XPanel LoadDataToPanelFromXMLElement(XElement xelement, XPanel parentPanel)
         {
             XPanel panel = new XPanel()
             {
                 Id = xelement.Attribute("panelId").Value,
                 Name = xelement.Attribute("panelName").Value,
-                Width = Double.Parse(xelement.Attribute("panelWidth").Value),
-                Heigth = Double.Parse(xelement.Attribute("panelHeight").Value),
+                Width = float.Parse(xelement.Attribute("panelWidth").Value),
+                Heigth = float.Parse(xelement.Attribute("panelHeight").Value),
                 AttachedToSide = int.Parse(xelement.Attribute("attachedToSide").Value),
-                HingeOffset = Double.Parse(xelement.Attribute("hingeOffset").Value),
+                HingeOffset = float.Parse(xelement.Attribute("hingeOffset").Value),
                 ParentPanel = parentPanel
             };
             return panel;
         }
-        private Double LoadRootXFromXML(XDocument xml)
+
+        private XPanel LoadDataToPanelFromXMLElement2(XElement xelement)
+        {
+            XPanel xPanel = new XPanel()
+            {
+                Id = xelement.Attribute("panelId").Value,
+                Name = xelement.Attribute("panelName").Value,
+                Width = float.Parse(xelement.Attribute("panelWidth").Value),
+                Heigth = float.Parse(xelement.Attribute("panelHeight").Value),
+                AttachedToSide = int.Parse(xelement.Attribute("attachedToSide").Value),
+                HingeOffset = float.Parse(xelement.Attribute("hingeOffset").Value)
+            };
+
+            var childPanels = xelement.Element("attachedPanels").Elements("item");
+
+            if (childPanels.Count() > 0)
+                xPanel.ChildXPanelsList = new List<XPanel>();
+
+            foreach (var item in childPanels)
+            {
+                XPanel P = LoadDataToPanelFromXMLElement2(item);
+                P.ParentPanel = xPanel;
+                xPanel.ChildXPanelsList.Add(P);
+            }
+            return xPanel;
+        }
+
+        private float LoadRootXFromXML(XDocument xml)
         {
             string value = xml.Root.Attribute("rootX").Value;
-            return double.Parse(value);
+            return float.Parse(value);
         }
-        private Double LoadRootYFromXML(XDocument xml)
+
+        private float LoadRootYFromXML(XDocument xml)
         {
             string value = xml.Root.Attribute("rootY").Value;
-            return double.Parse(value);
+            return float.Parse(value);
         }
-        private Double LoadOriginalDocumentWidthFromXML(XDocument xml)
+
+        private float LoadOriginalDocumentWidthFromXML(XDocument xml)
         {
             string value = xml.Root.Attribute("originalDocumentWidth").Value;
-            return double.Parse(value);
+            return float.Parse(value);
         }
-        private Double LoadOriginalDocumentHeigthFromXML(XDocument xml)
+
+        private float LoadOriginalDocumentHeigthFromXML(XDocument xml)
         {
             string value = xml.Root.Attribute("originalDocumentHeight").Value;
-            return double.Parse(value);
+            return float.Parse(value);
         }
         #endregion
     }

@@ -15,11 +15,11 @@ namespace Chili.Models
 
         public string Name { get; set; }
 
-        public double Width { get; set; }
+        public float Width { get; set; }
 
-        public double Heigth { get; set; }
+        public float Heigth { get; set; }
 
-        public double HingeOffset { get; set; }
+        public float HingeOffset { get; set; }
 
         public int AttachedToSide { get; set; }
 
@@ -33,6 +33,8 @@ namespace Chili.Models
         }
 
         public XPanel ParentPanel { get; set; }
+
+        public List<XPanel> ChildXPanelsList { get; set; }
 
         public int Orientation 
         {

@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Chili.Models
 {
-    class RenderedXpanel
+    class RenderedPanel
     {
-        public Rectangle XRecatngle { get; set; }
-        public Color XColor { get; set; }
+        public RectangleF Recatngle { get; set; }
+        public Color Color { get; set; }
         public string Text { get; set; }
     }
 }
