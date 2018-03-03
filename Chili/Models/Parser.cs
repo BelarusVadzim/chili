@@ -11,9 +11,9 @@ namespace Chili
     class Parser
     {
         string XMLFilePath = "";
+
         public RenderData Parse()
         {
-
             RenderData RData = new RenderData();
             var xml = XDocument.Load(XMLFilePath);
             RData.RootX = LoadRootXFromXML(xml);
@@ -22,17 +22,14 @@ namespace Chili
             RData.OriginalDocumentWidth= LoadOriginalDocumentWidthFromXML(xml);
 
             IEnumerable<XElement> elements = xml.Root.Element("panels").Elements("item");
-            List<XPanel> panels = new List<XPanel>();
-            XPanel P = new XPanel();
+
+            XPanel xPanel = new XPanel();
             foreach (XElement item in elements)
             {
-                AddDataToListOfPanel(item, null, panels);
-                P = LoadDataToPanelFromXMLElement2(item);
+                xPanel = LoadDataToPanelFromXMLElement(item);
             }
-            RData.ListOfXPanel = panels;
-            RData.RootXPanel = P;
+            RData.RootXPanel = xPanel;
             return RData;
-
         }
 
         public Parser(string XMLFilePath)
@@ -41,38 +38,8 @@ namespace Chili
         }
 
         #region Private methods
-        private void AddDataToListOfPanel(XElement xelement, XPanel parentPanel, List<XPanel> panels)
-        {
-            XPanel panel = LoadDataToPanelFromXMLElement(xelement, parentPanel);
-            panels.Add(panel);
-            IEnumerable<XElement> elements = xelement.Element("attachedPanels").Elements("item");
 
-
-
-            foreach (XElement element in elements)
-            {   
-                AddDataToListOfPanel(element, panel, panels);
-
-            }
-
-        }
-
-        private XPanel LoadDataToPanelFromXMLElement(XElement xelement, XPanel parentPanel)
-        {
-            XPanel panel = new XPanel()
-            {
-                Id = xelement.Attribute("panelId").Value,
-                Name = xelement.Attribute("panelName").Value,
-                Width = float.Parse(xelement.Attribute("panelWidth").Value),
-                Heigth = float.Parse(xelement.Attribute("panelHeight").Value),
-                AttachedToSide = int.Parse(xelement.Attribute("attachedToSide").Value),
-                HingeOffset = float.Parse(xelement.Attribute("hingeOffset").Value),
-                ParentPanel = parentPanel
-            };
-            return panel;
-        }
-
-        private XPanel LoadDataToPanelFromXMLElement2(XElement xelement)
+        private XPanel LoadDataToPanelFromXMLElement(XElement xelement)
         {
             XPanel xPanel = new XPanel()
             {
@@ -91,7 +58,7 @@ namespace Chili
 
             foreach (var item in childPanels)
             {
-                XPanel P = LoadDataToPanelFromXMLElement2(item);
+                XPanel P = LoadDataToPanelFromXMLElement(item);
                 P.ParentPanel = xPanel;
                 xPanel.ChildXPanelsList.Add(P);
             }

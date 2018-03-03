@@ -8,7 +8,7 @@ namespace Chili.Models
 {
     class RenderData
     {
-        public List<XPanel> ListOfXPanel { get; set; }
+        //public List<XPanel> ListOfXPanel { get; set; }
         public float RootX { get; set; }
         public float RootY { get; set; }
         public float OriginalDocumentWidth { get; set; }

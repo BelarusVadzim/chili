@@ -10,7 +10,6 @@ namespace Chili.Models
     class Render
     {
         #region Properties
-        private List<XPanel> ListOfXPanel { get; set; }
         private float RootX { get; set; }
         private float RootY { get; set; }
         private float OriginalDocumentWidth { get; set; }
@@ -22,7 +21,6 @@ namespace Chili.Models
 
         public Render(RenderData RData)
         {
-            this.ListOfXPanel = RData.ListOfXPanel;
             this.RootX = RData.RootX;
             this.RootY = RData.RootY;
             this.OriginalDocumentWidth = RData.OriginalDocumentWidth;
